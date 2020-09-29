@@ -7,22 +7,26 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 
 const middlewares = require('./middlewares');
+const logs = require('../api/logs');
 
 const app = express();
 
 mongoose.connect(process.env.DATABASE_URL, {
   useNewUrlParser: true,
+  useUnifiedTopology: true,
 });
 
 app.use(morgan('common'));
 app.use(helmet());
 app.use(cors());
 
-app.get('/', (req, res) => {
-  res.json({
-    message: 'Hello world',
-  });
-});
+// app.get('/', (req, res) => {
+//   res.json({
+//     message: 'Hello world',
+//   });
+// });
+
+app.use(logs);
 
 app.use(middlewares.notFound);
 
